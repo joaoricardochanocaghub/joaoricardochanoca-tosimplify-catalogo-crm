@@ -1,5 +1,5 @@
 /* ToSimplify Studio — service worker: cache do esqueleto da app para uso offline */
-const CACHE = 'ts-studio-v2';
+const CACHE = 'ts-studio-v3';
 const SHELL = [
   './',
   'index.html',
@@ -16,7 +16,8 @@ const SHELL = [
   'assets/logo.png',
   'assets/icon-192.png',
   'assets/icon-512.png',
-  'assets/apple-touch-icon.png'
+  'assets/apple-touch-icon.png',
+  'assets/catalogo/ona-qx4-2017.jpg'
 ];
 
 self.addEventListener('install', (event) => {

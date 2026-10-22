@@ -27,8 +27,8 @@
     return Number.isFinite(n) ? n : fallback;
   };
   const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
-  // Só aceita imagens embutidas (data URL) ou endereços http(s)
-  const photo = (v) => { const t = str(v); return /^(data:image\/|https?:\/\/)/.test(t) ? t : ''; };
+  // Só aceita imagens embutidas (data URL), endereços http(s) ou ficheiros da própria app em assets/
+  const photo = (v) => { const t = str(v); return /^(data:image\/|https?:\/\/|assets\/[\w./-]+\.(jpe?g|png|webp)$)/i.test(t) ? t : ''; };
   const pad2 = (n) => String(n).padStart(2, '0');
 
   function todayIso() {
@@ -98,7 +98,8 @@
   const seedCatalog = () => [
     { id: uid('cat'), sku: 'CNC-VMC-850X', name: 'Centro de Usinagem Vertical CNC VMC-850X', category: 'Máquina', description: 'Centro de maquinação vertical de alta precisão com fuso direct-drive de 12.000 RPM, guiamentos lineares de rolos e trocador automático de 24 ferramentas.', basePrice: 82500, vat: 23, specs: [spec('Curso X / Y / Z', '850 x 510 x 510 mm'), spec('Rotação Spindle', '12.000 RPM Direct-Drive'), spec('Potência Fuso', '15 kW / 11 kW'), spec('Comando CNC', 'Fanuc Oi-MF Plus 10.4"'), spec('Capacidade ATC', '24 Ferramentas Arm-Type')] },
     { id: uid('cat'), sku: 'CNC-LTH-200', name: 'Torno CNC de Alta Precisão LTH-200 com Ferramentas Ativas', category: 'Máquina', description: 'Torno CNC de barramento inclinado de 45° equipado com torre VDI-30 e eixo C de alta resolução para torneamento e fresagem combinados.', basePrice: 74000, vat: 23, specs: [spec('Diâmetro Max Torneável', '320 mm'), spec('Passagem de Barra', '65 mm (Chuck 8")'), spec('Velocidade Fuso', '4.500 RPM'), spec('Torre Ferramentas', '12 Posições BMT45'), spec('Comando CNC', 'Siemens Sinumerik 828D')] },
-    { id: uid('cat'), sku: 'FIX-HYD-40KN', name: 'Morsa de Fixação Hidráulica Alta Pressão 40 kN', category: 'Acessório', description: 'Morsa de elevada rigidez para centro CNC com repetição inferior a 0.002 mm e sistema pneumático-hidráulico de aperto.', basePrice: 2650, vat: 23, specs: [spec('Largura Mordente', '150 mm'), spec('Abertura Max', '300 mm'), spec('Força Aperto', '40 kN max')] }
+    { id: uid('cat'), sku: 'FIX-HYD-40KN', name: 'Morsa de Fixação Hidráulica Alta Pressão 40 kN', category: 'Acessório', description: 'Morsa de elevada rigidez para centro CNC com repetição inferior a 0.002 mm e sistema pneumático-hidráulico de aperto.', basePrice: 2650, vat: 23, specs: [spec('Largura Mordente', '150 mm'), spec('Abertura Max', '300 mm'), spec('Força Aperto', '40 kN max')] },
+    { id: uid('cat'), sku: 'EDM-ONA-QX4-2017-12463', name: 'Eletroerosão por Penetração ONA QX4 (2017)', category: 'Máquina', description: 'Eletroerosão por penetração CNC ONA QX4 de 2017, n.º série 12463, com eixo C, filtragem e limpeza automáticas e 20 elétrodos incluídos. Menos de 20.000 h de trabalho.', photo: 'assets/catalogo/ona-qx4-2017.jpg', basePrice: 55000, vat: 23, specs: [spec('Fabricante', 'ONA Electroerosión S.A. (Durango, Espanha)'), spec('Ano / N.º série', '2017 / 12463'), spec('Horas de trabalho', '< 20.000 h'), spec('Curso X / Y / Z', '600 / 400 / 400 mm'), spec('Eixo C', 'Sim'), spec('Elétrodos incluídos', '20 un.'), spec('Filtragem e limpeza', 'Automáticas'), spec('Alimentação', '400 V / 50 Hz · 25,8 A · 17,9 kVA'), spec('Poder de corte (Icc)', '25 kA'), spec('Ar comprimido', '6 bar mín.'), spec('Peso total', '4.530 kg (máq. 3.600 + gerador 350)')] }
   ];
   const seedProposal = () => ({
     id: uid('p'), ref: 'TS-2026-089', date: '2026-10-05', validityDays: 30, badge: 'PROPOSTA COMERCIAL',
