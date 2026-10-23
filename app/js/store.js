@@ -420,6 +420,30 @@
       persist();
       changed();
     },
+    // Junta um ficheiro aos dados atuais sem apagar nada; devolve o que foi acrescentado
+    mergeBackup(text) {
+      const src = JSON.parse(text);
+      if (!isObj(src)) throw new Error('Formato inválido');
+      const added = { clientes: 0, produtos: 0, propostas: 0 };
+      const key = (v) => str(v).replace(/\s/g, '').toLowerCase();
+      (Array.isArray(src.clients) ? src.clients : []).map(normClient).forEach((c) => {
+        const dup = data.clients.some((x) => (key(c.nif) ? key(x.nif) === key(c.nif) : key(x.company) === key(c.company)));
+        if (!dup && c.company.trim()) { data.clients.push(c); added.clientes += 1; }
+      });
+      (Array.isArray(src.catalog) ? src.catalog : []).map(normCatalog).forEach((c) => {
+        const dup = data.catalog.some((x) => (key(c.sku) ? key(x.sku) === key(c.sku) : key(x.name) === key(c.name)));
+        if (!dup && (c.sku.trim() || c.name.trim())) { data.catalog.push(c); added.produtos += 1; }
+      });
+      (Array.isArray(src.proposals) ? src.proposals : []).map(normProposal).forEach((p) => {
+        if (data.proposals.some((x) => x.id === p.id)) return;
+        if (!p.ref.trim() || data.proposals.some((x) => x.ref.trim() === p.ref.trim())) p.ref = nextRef(data.proposals, p.date);
+        data.proposals.unshift(p);
+        added.propostas += 1;
+      });
+      persist();
+      changed();
+      return added;
+    },
     resetDemo() { data = seedData(); persist(); changed(); },
     newSpec: (name = '', value = '') => ({ id: uid('sp'), name, value }),
     newItem: () => ({ id: uid('it'), desc: '', qty: 1, unitPrice: 0, discount: 0, vat: DEFAULT_VAT }),

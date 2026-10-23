@@ -1,5 +1,5 @@
 /* ToSimplify Studio — service worker: cache do esqueleto da app para uso offline */
-const CACHE = 'ts-studio-v3';
+const CACHE = 'ts-studio-v4';
 const SHELL = [
   './',
   'index.html',
