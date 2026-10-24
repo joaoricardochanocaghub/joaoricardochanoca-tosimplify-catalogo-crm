@@ -101,9 +101,10 @@
         <p class="modal__text">Os dados ficam guardados apenas neste navegador. Exporte regularmente uma cópia em JSON para não os perder ou para os passar para outro dispositivo.</p>
         <div class="row">
           <button type="button" class="btn btn--primary" data-act="export">${icon('download')} Exportar JSON</button>
+          <label class="btn btn--secondary">${icon('plus')} Juntar JSON<input type="file" accept="application/json,.json" hidden data-act="merge"></label>
           <label class="btn btn--secondary">${icon('upload')} Importar JSON<input type="file" accept="application/json,.json" hidden data-act="import"></label>
         </div>
-        <p class="field__hint">Importar substitui todos os dados atuais: propostas, clientes, catálogo e emitente.</p>
+        <p class="field__hint"><strong>Juntar</strong> acrescenta clientes, produtos e propostas do ficheiro aos dados atuais, sem apagar nada (ignora os que já existem). <strong>Importar</strong> substitui todos os dados atuais: propostas, clientes, catálogo e emitente.</p>
         <div class="section-block">
           <div class="section-head"><span class="section-title">Dados de demonstração</span></div>
           <button type="button" class="btn btn--danger btn--sm" data-act="reset" style="align-self:flex-start">${icon('trash', 14)} Repor dados de demonstração</button>
@@ -126,6 +127,22 @@
         m.close();
         const ok = await confirm({ title: 'Repor dados de demonstração', message: 'Todos os dados atuais são substituídos pelos dados de exemplo. Exporte antes uma cópia se precisar deles.', confirmLabel: 'Repor', danger: true });
         if (ok) { S.resetDemo(); toast('Dados de demonstração repostos.', 'success'); go('studio/1'); }
+      }
+    });
+    m.el.querySelector('[data-act="merge"]').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      m.close();
+      const ok = await confirm({ title: 'Juntar ficheiro', message: `Acrescentar aos dados atuais os clientes, produtos e propostas de "${file.name}"? Nada é apagado.`, confirmLabel: 'Juntar' });
+      if (!ok) return;
+      try {
+        const n = S.mergeBackup(await file.text());
+        const total = n.clientes + n.produtos + n.propostas;
+        toast(total ? `Acrescentados: ${n.clientes} cliente(s), ${n.produtos} produto(s), ${n.propostas} proposta(s).` : 'Nada novo: tudo o que está no ficheiro já existia.', total ? 'success' : 'info');
+        route();
+      } catch (err) {
+        console.error(err);
+        toast('O ficheiro não é um JSON válido do ToSimplify Studio.', 'error');
       }
     });
     m.el.querySelector('[data-act="import"]').addEventListener('change', async (e) => {

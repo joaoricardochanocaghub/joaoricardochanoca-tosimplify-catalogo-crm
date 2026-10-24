@@ -24,11 +24,16 @@ python3 -m http.server 8080
 
 Netlify ou GitHub Pages: publicar a pasta `app/` tal como está. Não há passo de build.
 
+Vercel: o `vercel.json` na raiz do repositório redireciona `/` para `/app/`, por isso o endereço de produção abre a app diretamente.
+
 ## Dados
 
 - Guardados em `localStorage` com a chave `tosimplify_studio_v4`, o mesmo esquema da versão anterior: os dados existentes carregam sem migração. O formato v3 (`tosimplify_app_data_v3`) também é importado.
 - Campo novo `statusDate` em cada proposta (data da última mudança de estado), usado em "Enviada há N dias".
-- Exportar e importar a cópia de segurança em **JSON** (botão no cabeçalho).
+- Botão **JSON** no cabeçalho:
+  - **Exportar JSON**: cópia de segurança completa.
+  - **Juntar JSON**: acrescenta clientes (por NIF), produtos (por SKU) e propostas de um ficheiro aos dados atuais, sem apagar nada; ignora o que já existe e renumera referências repetidas.
+  - **Importar JSON**: substitui todos os dados.
 
 ## Estrutura
 
