@@ -1,8 +1,11 @@
 # ToSimplify Studio — React + Vite
 
 Implementação em React + TypeScript do design **ToSimplify Studio** (Claude Design, ficheiro
-`ToSimplify Studio.html`). Substitui, quando aprovado, a PWA em `../app/`; até lá a produção continua
-a servir `app/`.
+`ToSimplify Studio.html`). Substitui a PWA em `../app/`.
+
+**Vercel:** o `vercel.json` na raiz faz a build desta pasta e publica-a na raiz do domínio. A PWA
+antiga continua acessível em `/app/` (copiada na build). As duas partilham o domínio, por isso
+partilham também os dados guardados no browser.
 
 | Separador | O que faz |
 |---|---|
