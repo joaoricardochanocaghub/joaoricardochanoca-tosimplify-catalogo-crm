@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { CatalogoView } from "./catalogo/CatalogoView";
 import { Header } from "./components/Header";
 import type { ViewId } from "./components/Header";
 import { JsonModal } from "./components/JsonModal";
@@ -90,7 +91,7 @@ export function App() {
         )}
         {view === "propostas" && <PropostasView onOpenStudio={openStudio} />}
         {view === "clientes" && <ClientesView onOpenStudio={openStudio} />}
-        {view === "catalogo" && <PendingView eyebrow="Catálogo" title="Equipamentos industriais" />}
+        {view === "catalogo" && <CatalogoView onOpenStudio={openStudio} />}
         {view === "documentos" && <PendingView eyebrow="Faturação" title="Documentos" />}
       </main>
 
