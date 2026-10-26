@@ -24,7 +24,7 @@ python3 -m http.server 8080
 
 Netlify ou GitHub Pages: publicar a pasta `app/` tal como está. Não há passo de build.
 
-Vercel: o `vercel.json` na raiz do repositório redireciona `/` para `/app/`, por isso o endereço de produção abre a app diretamente.
+Vercel: a raiz do domínio passou a servir a nova app React (`studio/`). Esta versão continua publicada em `/app/`.
 
 ## Dados
 
