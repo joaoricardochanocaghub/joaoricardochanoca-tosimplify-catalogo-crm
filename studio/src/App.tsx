@@ -3,6 +3,7 @@ import { CatalogoView } from "./catalogo/CatalogoView";
 import { Header } from "./components/Header";
 import type { ViewId } from "./components/Header";
 import { JsonModal } from "./components/JsonModal";
+import { DocumentosView } from "./documentos/DocumentosView";
 import { formatMoney } from "./lib/format";
 import { useStore } from "./store/StoreProvider";
 import { printWithTitle } from "./studio/ProposalDoc";
@@ -13,20 +14,6 @@ import { ClientesView } from "./views/Clientes";
 import { PropostasView } from "./views/Propostas";
 
 type Dialog = "pick-client" | "pick-catalog" | "json" | null;
-
-function PendingView({ eyebrow, title }: { eyebrow: string; title: string }) {
-  return (
-    <section className="view">
-      <div className="view__head">
-        <div>
-          <span className="eyebrow">{eyebrow}</span>
-          <h1>{title}</h1>
-        </div>
-      </div>
-      <div className="empty">Este separador chega na próxima fase da implementação.</div>
-    </section>
-  );
-}
 
 export function App() {
   const { data, active, dirty, storageError, saveActive, applyClient, applyCatalogItem } = useStore();
@@ -92,7 +79,7 @@ export function App() {
         {view === "propostas" && <PropostasView onOpenStudio={openStudio} />}
         {view === "clientes" && <ClientesView onOpenStudio={openStudio} />}
         {view === "catalogo" && <CatalogoView onOpenStudio={openStudio} />}
-        {view === "documentos" && <PendingView eyebrow="Faturação" title="Documentos" />}
+        {view === "documentos" && <DocumentosView />}
       </main>
 
       {dialog === "pick-client" && (
